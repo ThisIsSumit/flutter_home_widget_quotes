@@ -225,52 +225,7 @@ class _CustomQuotesState extends State<CustomQuotes> {
     );
   }
 
-  void showDescriptionDialog(BuildContext context, String? description) {
-    if (description == null || description.isEmpty) return;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Center(
-            child: const Text(
-              'Description',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
-            ),
-          ),
-          content: SingleChildScrollView(
-            child: Text(
-              description,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text(
-                'Close',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-          contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-          actionsPadding: const EdgeInsets.only(bottom: 16),
-        );
-      },
-    );
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     final Box<QuoteModel> quoteBox = Hive.box<QuoteModel>('quotesBox');
@@ -301,8 +256,12 @@ class _CustomQuotesState extends State<CustomQuotes> {
               builder: (context, Box<QuoteModel> box, _) {
                 if (_filteredQuotes.isEmpty) {
                   return const Center(
-                    child: Text('No quotes found.',
-                        style: TextStyle(fontSize: 16)),
+                    child: Text(
+                      'No quotes found.',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                   );
                 }
                 return ListView.builder(
@@ -313,7 +272,9 @@ class _CustomQuotesState extends State<CustomQuotes> {
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 5),
+                        horizontal: 8,
+                        vertical: 5,
+                      ),
                       child: Material(
                         elevation: 2,
                         borderRadius: BorderRadius.circular(10),
@@ -321,42 +282,21 @@ class _CustomQuotesState extends State<CustomQuotes> {
                           title: Text(
                             quote.quote,
                             style: const TextStyle(
-                                fontSize: 16, fontStyle: FontStyle.italic),
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (quote.description !=
-                                  null) // Check if description exists
-                                quote.description!.isNotEmpty
-                                    ? TextButton(
-                                        onPressed: () {
-                                          showDescriptionDialog(
-                                            context,
-                                            quote.description!,
-                                          );
-                                        },
-                                        child: Text(
-                                          "View Description",
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      )
-                                    : Text(
-                                        'No Description',
-                                        style: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
-                                        ),
-                                      ),
-                              IconButton(
-                                icon:
-                                    const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () => _showDeleteDialog(
-                                    context, boxIndex, quoteBox),
-                              ),
-                            ],
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () =>
+                                _showDeleteDialog(context, boxIndex, quoteBox),
                           ),
                           onTap: () => _showEditDialog(
-                              context, quoteBox, boxIndex, quote),
+                            context,
+                            quoteBox,
+                            boxIndex,
+                            quote,
+                          ),
                         ),
                       ),
                     );
