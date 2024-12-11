@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => QuoteHomePage(title: "Quotes")));
               },
-              child: Text(
+              child: const Text(
                   "Goto Next Page"
               ),
             )

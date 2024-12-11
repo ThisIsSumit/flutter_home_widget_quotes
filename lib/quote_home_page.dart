@@ -452,8 +452,7 @@ class _QuoteHomePageState extends State<QuoteHomePage>
                                     fontStyle: FontStyle.italic,
                                   ),
                                 ),
-                                if (randomQuoteDescription != null &&
-                                    randomQuoteDescription.isNotEmpty)
+                                if (randomQuoteDescription != null)
                                   Column(
                                     children: [
                                       TextButton(
@@ -466,30 +465,31 @@ class _QuoteHomePageState extends State<QuoteHomePage>
                                           _isExpanded
                                               ? 'Hide Description'
                                               : 'View Description',
+                                          style: TextStyle(color: Colors.black),
                                         ),
                                       ),
                                       Visibility(
-                                          visible: _isExpanded,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16.0,
-                                              vertical: 8.0,
+                                        visible: _isExpanded,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0,
+                                            vertical: 8.0,
+                                          ),
+                                          child: Text(
+                                            randomQuoteDescription.isNotEmpty
+                                                ? randomQuoteDescription
+                                                : 'No description Available',
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
+                                            overflow: TextOverflow.visible,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.grey,
+                                              height: 1.5,
                                             ),
-                                            child: Text(
-                                              randomQuoteDescription,
-                                              textAlign: TextAlign.center,
-                                              softWrap:
-                                                  true, // Ensures text wraps
-                                              overflow: TextOverflow
-                                                  .visible, // Allows full text to show
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.grey,
-                                                height:
-                                                    1.5, // Adds line height for better readability
-                                              ),
-                                            ),
-                                          )),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                               ],
@@ -501,7 +501,9 @@ class _QuoteHomePageState extends State<QuoteHomePage>
                             'No quote found',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 20, fontStyle: FontStyle.italic),
+                              fontSize: 20,
+                              fontStyle: FontStyle.italic,
+                            ),
                           );
                         },
                       );
@@ -526,6 +528,7 @@ class _QuoteHomePageState extends State<QuoteHomePage>
                   onTap: () async {
                     if (isApiEnable && quoteProvider.currentQuote.isNotEmpty) {
                       await _setLiveWallpaper(quoteProvider.currentQuote);
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           backgroundColor: Colors.green,
@@ -548,9 +551,10 @@ class _QuoteHomePageState extends State<QuoteHomePage>
                   height: 15,
                 ),
                 Expanded(
-                    child: CustomQuotes(
-                  selectedTagNames: selectedTagNames,
-                ))
+                  child: CustomQuotes(
+                    selectedTagNames: selectedTagNames,
+                  ),
+                ),
               ],
             ),
           ),

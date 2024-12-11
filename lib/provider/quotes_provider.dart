@@ -131,7 +131,7 @@ class QuoteProvider with ChangeNotifier {
 
   /// Fetch a random quote for external use
   Future<List<String>> fetchRandomQuoteWithDescription(
-      List<String>? selectedTags) async {
+      List<String>? selectedTags,) async {
     await Future.delayed(const Duration(milliseconds: 700));
 
     try {
@@ -175,7 +175,7 @@ class QuoteProvider with ChangeNotifier {
 
   /// Filter quotes by tags
   List<QuoteModel> _filterQuotesByTags(
-      List<QuoteModel> quotes, List<String>? selectedTags) {
+      List<QuoteModel> quotes, List<String>? selectedTags,) {
     if (selectedTags == null || selectedTags.isEmpty) {
       return quotes;
     }
